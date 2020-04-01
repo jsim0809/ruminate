@@ -1,0 +1,38 @@
+{
+    "env": {
+        "browser": true,
+        "jest": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+      "eslint:recommended", 
+      "./node_modules/eslint-config-hackreactor/index.js",
+      "airbnb"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+      "react"
+    ],
+    "rules": {
+      "comma-dangle": ["error", "never"],
+      "import/extensions": ["error", {
+        "jsx": "always"
+      }],
+      "no-console": 0,
+      "react/forbid-prop-types": 0,
+      "react/jsx-one-expression-per-line": 0,
+      "no-plusplus": 0
+    }
+}

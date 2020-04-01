@@ -1,0 +1,10 @@
+
+node_modules
+public/
+database/schema.sql
+database/dbsetup.sql
+
+STYLE-GUIDE.md
+README.md
+
+**/__snapshots__/*

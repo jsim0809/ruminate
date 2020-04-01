@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Reviews Component renders the reviews component and its children 1`] = `
+<div
+  className="reviews"
+>
+  <div
+    className="sorting-panel"
+  >
+    <h4>
+      Sort by
+    </h4>
+    <div
+      className="sort-area"
+    >
+      <div
+        className="sort-dropdown"
+        onClick={[Function]}
+      >
+        <span
+          className="sorter-name"
+        >
+          Newest
+        </span>
+        <i
+          className="sorter-icon"
+        />
+      </div>
+      <div
+        className="options-container"
+      />
+    </div>
+    <h4>
+      Filters
+    </h4>
+    <div
+      className="filters"
+    />
+  </div>
+</div>
+`;

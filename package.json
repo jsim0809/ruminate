@@ -1,0 +1,72 @@
+{
+  "name": "reviews-and-impressions",
+  "version": "1.0.0",
+  "description": "A reviews module for restaurant-goers' opinions",
+  "author": "Sam Hodak",
+  "repository": {
+    "url": "https://github.com/freeseats/slhodak-reviews-and-impressions"
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
+  "license": "ISC",
+  "engines": {
+    "node": ">=6.13.0"
+  },
+  "scripts": {
+    "server-dev": "nodemon ./server/server.js",
+    "react-dev": "webpack -d -w",
+    "build": "webpack -d",
+    "start": "node ./server/server.js",
+    "add": "eslint '*/**' --ignore-path .lintignore && git add -A",
+    "pg-setup": "brew install postgres && brew services start postgres && createdb reviews && psql reviews",
+    "seed": "node database/seed.js",
+    "test": "jest",
+    "dockerstart": "node ./database/seed.js && node ./server/server.js"
+  },
+  "dependencies": {
+    "babel-plugin-react-css-modules": "^5.2.6",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "faker": "^4.1.0",
+    "jquery": "^3.4.1",
+    "lodash": "^4.17.11",
+    "mini-css-extract-plugin": "^0.7.0",
+    "moment": "^2.24.0",
+    "pg": "^7.11.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "squel": "^5.12.2",
+    "superagent": "^5.0.5",
+    "supertest": "^4.0.2",
+    "svg-url-loader": "^2.3.2",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "acorn": "^6.1.1",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
+    "css-loader": "^2.1.1",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0",
+    "jest": "^24.8.0",
+    "jsdom": "^15.1.0",
+    "nodemon": "^1.19.0",
+    "react-test-renderer": "^16.8.6",
+    "style-loader": "^0.23.1"
+  }
+}

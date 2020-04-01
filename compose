@@ -1,0 +1,10 @@
+#!/bin/bash
+# create docker images on custom network
+docker network create revnet
+docker build -t rdbimg ./database/
+docker build -t rfeimg .
+docker run -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=example -e POSTGRES_DB=reviews --name rdb --network revnet rdbimg
+echo "waiting for pg database before starting front end"
+sleep 5
+docker run -d -p 3010:3010 --name rfe --network revnet rfeimg
+

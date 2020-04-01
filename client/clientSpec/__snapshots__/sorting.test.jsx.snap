@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sorting renders the component 1`] = `
+<div
+  className="sorting-panel"
+>
+  <h4>
+    Sort by
+  </h4>
+  <div
+    className="sort-area"
+  >
+    <div
+      className="sort-dropdown"
+      onClick={[Function]}
+    >
+      <span
+        className="sorter-name"
+      />
+      <i
+        className="sorter-icon"
+      />
+    </div>
+    <div
+      className="options-container"
+    />
+  </div>
+  <h4>
+    Filters
+  </h4>
+  <div
+    className="filters"
+  >
+    <div
+      className="filter-button"
+      data-tag="a"
+    >
+      <input
+        className="filter-checkbox"
+        type="checkbox"
+      />
+      <span
+        className="filter-name"
+      >
+        a
+      </span>
+    </div>
+    <div
+      className="filter-button"
+      data-tag="b"
+    >
+      <input
+        className="filter-checkbox"
+        type="checkbox"
+      />
+      <span
+        className="filter-name"
+      >
+        b
+      </span>
+    </div>
+  </div>
+</div>
+`;
