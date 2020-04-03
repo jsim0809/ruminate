@@ -36,10 +36,10 @@ const Seed10m = {
     }
     return number[0];
   },
-  createRestaurants() {
+  async createRestaurants() {
     // create 10 million restaurants and store them in a CSV
-    let restaurants10mStream = fs.createWriteStream('../../sdc-data/restaurants10m.csv', { flags: 'a' });
-    for (let i = 5000001; i <= 10000000; i += 1) {
+    let restaurants10mStream = fs.createWriteStream('../../sdc-data/restaurants10m.csv', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
+    for (let i = 5000001; i <= 10000000; i += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
       let restaurant = '';
       // id
       restaurant += i + ',';
@@ -62,21 +62,26 @@ const Seed10m = {
       // valuerating
       restaurant += Seed10m.fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })) + '\n';
       // Write to CSV
-      restaurants10mStream.write(restaurant);
+      let ok = restaurants10mStream.write(review);
+      if (!ok) {
+        await new Promise((resolve, reject) => {
+          restaurants10mStream.once('drain', resolve);
+        });
+      };
     }
     restaurants10mStream.end();
     restaurants10mStream.on('finish', () => {
       console.log('Successfully appended 5m entries to restaurants10m.csv. Total 10m.');
     });
     restaurants10mStream.on('error', () => {
-        console.error('Error: write failed.');
+      console.error('Error: write failed.');
     });
   },
-  createDiners() {
+  async createDiners() {
     // create 1 million diners and store them in a CSV
     // 0.1 diners per restaurant
-    let diners10mStream = fs.createWriteStream('../../sdc-data/diners1m.csv', { flags: 'a' });
-    for (let i = 1; i <= 1000000; i += 1) {
+    let diners1mStream = fs.createWriteStream('../../sdc-data/diners1m.csv', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
+    for (let i = 1; i <= 1000000; i += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
       let diner = '';
       // id
       diner += i + ',';
@@ -93,21 +98,26 @@ const Seed10m = {
       // totalreviews
       diner += Faker.random.number({ min: 0, max: 25 }) + '\n';
       // Write to CSV
-      diners10mStream.write(diner);
+      let ok = diners1mStream.write(review);
+      if (!ok) {
+        await new Promise((resolve, reject) => {
+          diners1mStream.once('drain', resolve);
+        });
+      };
     }
-    diners10mStream.end();
-    diners10mStream.on('finish', () => {
+    diners1mStream.end();
+    diners1mStream.on('finish', () => {
       console.log('Successfully appended 1m entries to diners1m.csv.');
     });
-    diners10mStream.on('error', () => {
-        console.error('Error: write failed.');
+    diners1mStream.on('error', () => {
+      console.error('Error: write failed.');
     });
   },
-  createReviews() {
+  async createReviews() {
     // create 200 million reviews and store them in a CSV
     // 20 reviews per restaurant
-    let reviews10mStream = fs.createWriteStream('../../sdc-data/reviews50m_1.csv', { flags: 'a' });
-    for (let i = 1; i <= 5000000; i++) {
+    let reviews200mStream = fs.createWriteStream('../../sdc-data/reviews50m_4.csv', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
+    for (let i = 170000001; i <= 200000000; i += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
       let review = '';
       // id
       review += i + ',';
@@ -148,19 +158,24 @@ const Seed10m = {
       }
       review += tags + '\n';
       // Write to CSV
-      reviews10mStream.write(review);
+      let ok = reviews200mStream.write(review);
+      if (!ok) {
+        await new Promise((resolve, reject) => {
+          reviews200mStream.once('drain', resolve);
+        });
+      };
     }
-    reviews10mStream.end();
-    reviews10mStream.on('finish', () => {
-      console.log('Successfully appended 5m entries to reviews200m.csv. Total 50m.');
+    reviews200mStream.end();
+    reviews200mStream.on('finish', () => {
+      console.log('Successfully appended 30m entries to reviews50m_4.csv. Total 200m.'); // CHECK THIS WHEN RERUNNING SCRIPT
     });
-    reviews10mStream.on('error', () => {
-        console.error('Error: write failed.');
+    reviews200mStream.on('error', () => {
+      console.error('Error: write failed.');
     });
   },
 
 };
 
-Seed10m.createRestaurants();
+// Seed10m.createRestaurants();
 // Seed10m.createDiners();
-// Seed10m.createReviews();
+Seed10m.createReviews(); // CHECK THIS WHEN RERUNNING SCRIPT
