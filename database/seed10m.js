@@ -116,33 +116,33 @@ const Seed10m = {
   async createReviews() {
     // create 200 million reviews and store them in a CSV
     // 20 reviews per restaurant
-    let reviews200mStream = fs.createWriteStream('../../sdc-data/reviews50m_4.csv', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
-    for (let i = 170000001; i <= 200000000; i += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
+    let reviews200mStream = fs.createWriteStream('../../sdc-data/reviews10m_20.csv', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
+    for (let i = 190000001; i <= 200000000; i += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
       let review = '';
       // id
-      review += i + ',';
+      review += i + '|';
       // restaurant
-      review += Faker.random.number({ min: 1, max: 10000000 }) + ',';
+      review += Faker.random.number({ min: 1, max: 10000000 }) + '|';
       // diner
-      review += Faker.random.number({ min: 1, max: 1000000 }) + ',';
+      review += Faker.random.number({ min: 1, max: 1000000 }) + '|';
       // text
       review += Faker.lorem.sentences();
       if (Math.random() > 0.7) {
         review.text += ` ${Faker.lorem.sentences()}`;
       }
-      review += ',';
-      // date --- TODO: last 3 months
-      review += moment(Faker.date.recent(365)).format('YYYY-MM-DD') + ',';
+      review += '|';
+      // date
+      review += moment(Faker.date.recent(365)).format('YYYY-MM-DD') + '|';
       // overall
-      review += Faker.random.number({ min: 1, max: 5 }) + ',';
+      review += Faker.random.number({ min: 1, max: 5 }) + '|';
       // food
-      review += Faker.random.number({ min: 1, max: 5 }) + ',';
+      review += Faker.random.number({ min: 1, max: 5 }) + '|';
       // service
-      review += Faker.random.number({ min: 1, max: 5 }) + ',';
+      review += Faker.random.number({ min: 1, max: 5 }) + '|';
       // ambience
-      review += Faker.random.number({ min: 1, max: 5 }) + ',';
+      review += Faker.random.number({ min: 1, max: 5 }) + '|';
       // wouldrecommend
-      review += Faker.random.boolean() + ',';
+      review += Faker.random.boolean() + '|';
       // tags
       let tags = '';
       for (let j = 0; j < 2; j++) {
@@ -167,7 +167,7 @@ const Seed10m = {
     }
     reviews200mStream.end();
     reviews200mStream.on('finish', () => {
-      console.log('Successfully appended 30m entries to reviews50m_4.csv. Total 200m.'); // CHECK THIS WHEN RERUNNING SCRIPT
+      console.log('Successfully appended 10m entries to reviews10m_20.csv. Total 200m.'); // CHECK THIS WHEN RERUNNING SCRIPT
     });
     reviews200mStream.on('error', () => {
       console.error('Error: write failed.');
