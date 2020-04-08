@@ -33,8 +33,7 @@ export default class Reviews extends React.Component {
       openReport: null
     };
 
-    this.componentWillMount = this.componentWillMount.bind(this);
-    this.getSummaryData = this.getSummaryData.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.getReviewsData = this.getReviewsData.bind(this);
     this.parseStarPercentages = this.parseStarPercentages.bind(this);
     this.getTags = this.getTags.bind(this);
@@ -58,21 +57,8 @@ export default class Reviews extends React.Component {
     this.handleReportClear = this.handleReportClear.bind(this);
   }
 
-  componentWillMount() {
-    this.getSummaryData();
+  componentDidMount() {
     this.getReviewsData();
-  }
-
-  getSummaryData() {
-    const { restaurantId } = this.props;
-    request
-      .get(`http://localhost:3010/${restaurantId}/summary`)
-      .then((res) => {
-        this.setState({
-          summary: res.body[0]
-        });
-      })
-      .catch(err => console.log(err));
   }
 
   getReviewsData() {
@@ -81,8 +67,11 @@ export default class Reviews extends React.Component {
       .get(`http://localhost:3010/${restaurantId}/reviews`)
       .then((res) => {
         this.setState({
-          reviews: res.body,
-          showing: res.body
+          summary: this.unzipSummary(res.body[0].review)
+        });
+        this.setState({
+          reviews: this.unzipReviews(res.body),
+          showing: this.unzipReviews(res.body),
         }, () => {
           this.sortReviews();
           this.parseStarPercentages();
@@ -90,6 +79,50 @@ export default class Reviews extends React.Component {
         });
       })
       .catch(err => console.log(err));
+  }
+
+  unzipReviews(array) {
+    return array.map((review) => {
+      return {
+        date: review.review.d,
+        text: review.review.t,
+        overall: review.review.o,
+        food: review.review.f,
+        service: review.review.s,
+        ambience: review.review.a,
+        wouldrecommend: review.review.w === 't' ? true : false,
+        tags: review.review.g.split(',').map((tag) => this.retag(tag)).join(),
+        firstname: review.review.df,
+        lastname: review.review.dl,
+        city: review.review.dc,
+        avatarcolor: ['#d86441', '#bb6acd', '#6c8ae4', '#df4e96'][review.review.da - 1],
+        isvip: review.review.dv === 't' ? true : false,
+        totalreviews: review.review.dt,
+      }
+    });
+  }
+
+  unzipSummary(review) {
+    return {
+      location: review.rl,
+      noise: ['Quiet', 'Average', 'Loud'][review.ri - 1],
+      recommendPercent: review.rr,
+      valueRating: review.rv,
+      averageOverall: review.ro,
+      averageFood: review.rf,
+      averageAmbience: review.ra,
+      averageService: review.rs,
+    }
+  }
+
+  retag(tag) {
+    if (tag[0] === 'f') {
+      return ['pot roast', 'chicken', 'sushi', 'marshmallows', 'pumpkin pie', 'wine'][tag[1] - 1];
+    } else if (tag[0] === 't') {
+      return ['groups', 'kids', 'gluten free', 'vegan'][tag[1] - 1];
+    } else {
+      return '';
+    }
   }
 
   getTags() {
