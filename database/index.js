@@ -1,50 +1,19 @@
-const createClient = require('./pg_client.js');
-const squel = require('squel');
+const arangojs = require('arangojs');
+const db = new arangojs.Database();
+const dbconf = require('../config/db_config');
 
-const makeQuery = (client, sql, callback) => {
-  client.connect()
-    .then(() => {
-      client.query(sql)
-        .then((res) => {
-          callback(null, res.rows);
-          client.end();
-        })
-        .catch((err) => {
-          callback(err);
-          client.end();
-        });
-    })
-    .catch((err) => {
-      callback(err);
-      client.end();
-    });
-};
+db.useDatabase('_system');
+db.useBasicAuth(dbconf.user, dbconf.password);
 
 module.exports.getAllReviews = (restaurantId, callback) => {
-  const client = createClient();
-
-  const sql = `SELECT 
-    reviews.id, 
-    reviews.restaurant,
-    reviews.text,
-    reviews.date,
-    reviews.overall,
-    reviews.food,
-    reviews.service,
-    reviews.ambience,
-    reviews.wouldrecommend,
-    reviews.tags,
-    diners.firstname,
-    diners.lastname,
-    diners.city,
-    diners.avatarcolor,
-    diners.isvip,
-    diners.totalreviews
-    from reviews INNER JOIN diners 
-    on (reviews.diner = diners.id) 
-    where reviews.restaurant = ${restaurantId}`;
-
-  makeQuery(client, sql, callback);
+  db.query(`FOR review IN reviews FILTER review.z == ${restaurantId} RETURN { review }`)
+    .then((cursor) => cursor.all())
+    .then((reviews) => {
+      callback(null, reviews);
+    })
+    .catch((error) => {
+      callback(error);
+    });
 };
 
 module.exports.getSummary = (restaurantId, callback) => {
