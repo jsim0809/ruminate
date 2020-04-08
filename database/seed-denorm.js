@@ -37,11 +37,10 @@ const Seed = {
     return number[0];
   },
   async createReviews() {
-    // create 100 million reviews and store them in a CSV
-    // 10 reviews per restaurant
-    let reviewStream = fs.createWriteStream('../../sdc-data/reviews_denorm_1.csv', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
-    for (let restaurant_id = 1; restaurant_id <= 1000; restaurant_id += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
-      for (let j = 0; j < 20; j += 1) {
+    // create 10 million reviews and store them in a CSV
+    let reviewStream = fs.createWriteStream('../../sdc-data/reviews_denorm_10m.csv', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
+    for (let restaurant_id = 1; restaurant_id <= 10000000; restaurant_id += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
+      for (let j = 0; j < 1; j += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
         let review = '';
         // id
         review += restaurant_id + '|';
@@ -65,7 +64,7 @@ const Seed = {
         review += Faker.random.boolean() + '|';
         // tags
         let tags = '';
-        for (let j = 0; j < 2; j++) {
+        for (let k = 0; k < 2; k++) {
           if (Math.random() > 0.8) {
             if (tags[0]) {
               tags += ',';
@@ -115,7 +114,7 @@ const Seed = {
         // Write to CSV
         let ok = reviewStream.write(review);
         if (!ok) {
-          await new Promise((resolve, reject) => {
+          await new Promise((resolve) => {
             reviewStream.once('drain', resolve);
           });
         };
@@ -123,7 +122,7 @@ const Seed = {
     }
     reviewStream.end();
     reviewStream.on('finish', () => {
-      console.log('Successfully appended 10m entries to reviews10m_20.csv. Total 200m.'); // CHECK THIS WHEN RERUNNING SCRIPT
+      console.log('Successfully appended 10m entries to reviews_denorm_10m.csv. Total 10m.'); // CHECK THIS WHEN RERUNNING SCRIPT
     });
     reviewStream.on('error', () => {
       console.error('Error: write failed.');

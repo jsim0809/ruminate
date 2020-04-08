@@ -1,4 +1,4 @@
-CREATE TABLE reviews-denorm (
+CREATE TABLE reviews (
   restaurant_id                         int,
   text                                  varchar(1000),
   date                                  date,
@@ -16,11 +16,11 @@ CREATE TABLE reviews-denorm (
   restaurant_averageservice             numeric,
   restaurant_averageambience            numeric,
   restaurant_averagefood                numeric,
-  restaurant_valuerating                numeric
-  diner_firstname                      varchar(30),
-  diner_lastname                       varchar(30),
-  diner_city                           varchar(30),
-  diner_avatarcolor                    varchar(10),
-  diner_isvip                          boolean,
-  diner_totalreviews                   int
+  restaurant_valuerating                numeric,
+  diner_firstname                       varchar(30),
+  diner_lastname                        varchar(30),
+  diner_city                            varchar(30),
+  diner_avatarcolor                     varchar(10),
+  diner_isvip                           boolean,
+  diner_totalreviews                    int
 );

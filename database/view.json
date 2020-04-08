@@ -3,41 +3,31 @@
 /// VIEW SCHEMA for "byRestaurantID"
 
 function(doc) {
-  var key, value;
-  if (doc.restaurant_id && doc.text && doc.date && doc.overall && doc.food
-    && doc.service && doc.ambience && doc.wouldrecommend && doc.tags
-    && doc.restaurant_name && doc.restaurant_location && doc.restaurant_noise
-    && doc.restaurant_recommendpercent && doc.restaurant_averageoverall
-    && doc.restaurant_averageservice && doc.restaurant_averageambience
-    && doc.restaurant_averagefood && doc.restaurant_valuerating && doc.diner_firstname
-    && doc.diner_lastname && doc.diner_city && doc.diner_avatarcolor && doc.diner_isvip
-    && doc.diner_totalreviews) {
-    key = restaurant_id;
-    value = {
-      text: doc.text,
-      date: doc.date,
-      overall: doc.overall,
-      food: doc.food,
-      service: doc.service,
-      ambience: doc.ambience,
-      wouldrecommend: doc.wouldrecommend,
-      tags: doc.tags,
-      restaurant_name: doc.restaurant_name,
-      restaurant_location: doc.restaurant_location,
-      restaurant_noise: doc.restaurant_noise,
-      restaurant_recommendpercent: doc.restaurant_recommendpercent,
-      restaurant_averageoverall: doc.restaurant_averageoverall,
-      restaurant_averageservice: doc.restaurant_averageservice,
-      restaurant_averageambience: doc.restaurant_averageambience,
-      restaurant_averagefood: doc.restaurant_averagefood,
-      restaurant_valuerating: doc.restaurant_valuerating,
-      diner_firstname: doc.diner_firstname,
-      diner_lastname: doc.diner_lastname,
-      diner_city: doc.diner_city,
-      diner_avatarcolor: doc.diner_avatarcolor,
-      diner_isvip: doc.diner_isvip,
-      diner_totalreviews: doc.diner_totalreviews,
+    const key = doc.z;
+    const value = {
+      t: doc.t,
+      d: doc.d,
+      o: doc.o,
+      f: doc.f,
+      s: doc.s,
+      a: doc.a,
+      w: doc.w,
+      g: doc.g,
+      rn: doc.rn,
+      rl: doc.rl,
+      ri: doc.ri,
+      rr: doc.rr,
+      ro: doc.ro,
+      rs: doc.rs,
+      ra: doc.ra,
+      rf: doc.rf,
+      rv: doc.rv,
+      df: doc.df,
+      dl: doc.dl,
+      dc: doc.dc,
+      da: doc.da,
+      dv: doc.dv,
+      dt: doc.dt,
     };
     emit(key, value);
   }
-}
