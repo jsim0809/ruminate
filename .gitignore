@@ -28,6 +28,3 @@ coverage
 
 # Compiled Dirs (http://nodejs.org/api/addons.html)
 public/bundle.js
-
-# Arango credentials
-config/db_config.js

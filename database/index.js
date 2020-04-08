@@ -1,6 +1,6 @@
 const arangojs = require('arangojs');
 const db = new arangojs.Database();
-const dbconf = require('../config/db_config');
+const dbconf = require('../../sdc-data/config/arango_config.js');
 
 db.useDatabase('_system');
 db.useBasicAuth(dbconf.user, dbconf.password);
