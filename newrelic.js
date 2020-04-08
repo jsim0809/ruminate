@@ -10,7 +10,7 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: ['SDC Baseline - Postgres Small'],
+  app_name: ['SDC Real First Touch - Arango Big'],
   /**
    * Your New Relic license key.
    */
