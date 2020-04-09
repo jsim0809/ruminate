@@ -6,7 +6,8 @@ db.useDatabase('_system');
 db.useBasicAuth(dbconf.user, dbconf.password);
 
 module.exports.getAllReviews = (restaurantId, callback) => {
-  db.query(`FOR review IN reviews FILTER review.z == ${restaurantId} RETURN { review }`)
+  let queryID = `r/${Number(restaurantId).toString(36)}`;
+  db.query(`RETURN DOCUMENT("${queryID}")`)
     .then((cursor) => cursor.all())
     .then((reviews) => {
       callback(null, reviews);
