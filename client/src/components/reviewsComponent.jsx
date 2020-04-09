@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import request from 'superagent';
+import moment from 'moment';
 import Summary from './summary.jsx';
 import Sorting from './sorting.jsx';
 import ReviewList from './reviewList.jsx';
@@ -84,7 +85,7 @@ export default class Reviews extends React.Component {
   unzipReviews(array) {
     return array.map((review) => {
       return {
-        date: review.review.d,
+        date: moment(review.review.d, 'YYMMD').format('YYYY-MM-DD'),
         text: review.review.t,
         overall: review.review.o,
         food: review.review.f,

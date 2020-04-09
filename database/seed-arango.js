@@ -63,38 +63,10 @@ function fixFloatPrecision(float) {
 
 async function createReviews() {
   // create 10 million restaurants and store them in a JSONL
-  // each restaurant has one summary document and n reviews.
+  // each restaurant has one review.
   let reviewStream = fs.createWriteStream('../../sdc-data/reviews_10m.jsonl', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
 
   for (let restaurant_id = 1; restaurant_id <= 10000000; restaurant_id += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
-
-    const summary = {
-      // restaurant_id
-      "z": restaurant_id,
-      // restaurant location
-      "rl": Faker.address.city().replace(/'/g, ''),
-      // restaurant noise
-      "ri": getRandomNoiseLevel(),
-      // restaurant recommend
-      "rr": Faker.random.number({ min: 0, max: 100 }),
-      // restaurant overall
-      "ro": fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })),
-      // restaurant average service
-      "rs": fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })),
-      // restaurant average ambience
-      "ra": fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })),
-      // restaurant average foood
-      "rf": fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })),
-      // restaurant average value
-      "rv": fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })),
-    }
-
-    let summaryOK = reviewStream.write(JSON.stringify(summary) + '\n');
-    if (!summaryOK) {
-      await new Promise((resolve) => {
-        reviewStream.once('drain', resolve);
-      });
-    };
 
     for (let j = 0; j < 1; j += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
 
@@ -136,6 +108,22 @@ async function createReviews() {
         "w": regularRandom(),
         // tags
         "g": tags,
+        // restaurant location
+        "rl": Faker.address.city().replace(/'/g, ''),
+        // restaurant noise
+        "ri": getRandomNoiseLevel(),
+        // restaurant recommend
+        "rr": Faker.random.number({ min: 0, max: 100 }),
+        // restaurant overall
+        "ro": fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })),
+        // restaurant average service
+        "rs": fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })),
+        // restaurant average ambience
+        "ra": fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })),
+        // restaurant average foood
+        "rf": fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })),
+        // restaurant average value
+        "rv": fixFloatPrecision(Faker.random.number({ min: 0, max: 5, precision: 0.1 })),
         // diner first name
         "df": Faker.name.firstName().replace(/'/g, ''),
         // diner last name
