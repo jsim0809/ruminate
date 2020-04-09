@@ -1,5 +1,5 @@
 CREATE TABLE restaurants (
-  id                serial primary key unique,
+  id                int unique,
   name              varchar(30),
   location          varchar(30), 
   noise             varchar(10),
@@ -12,7 +12,7 @@ CREATE TABLE restaurants (
 );
 
 CREATE TABLE diners (
-  id            serial primary key unique,
+  id            int unique,
   firstname     varchar(30),
   lastname      varchar(30),
   city          varchar(30),
@@ -22,7 +22,7 @@ CREATE TABLE diners (
 );
 
 CREATE TABLE reviews (
-  id              serial primary key unique,
+  id              int unique,
   restaurant      int,
   diner           int,
   text            varchar(1000),
