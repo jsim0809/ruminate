@@ -62,10 +62,12 @@ function fixFloatPrecision(float) {
 }
 
 async function createReviews() {
-  // create 10 million reviews and store them in a CSV
+  // create 10 million restaurants and store them in a JSONL
+  // each restaurant has one review.
   let reviewStream = fs.createWriteStream('../../sdc-data/reviews_10m.jsonl', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
 
   for (let restaurant_id = 1; restaurant_id <= 10000000; restaurant_id += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
+
     for (let j = 0; j < 1; j += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
 
       text = Faker.lorem.sentences();
@@ -106,8 +108,6 @@ async function createReviews() {
         "w": regularRandom(),
         // tags
         "g": tags,
-        // restaurant name
-        "rn": Faker.lorem.word(),
         // restaurant location
         "rl": Faker.address.city().replace(/'/g, ''),
         // restaurant noise
@@ -138,8 +138,8 @@ async function createReviews() {
         "dt": Faker.random.number({ min: 0, max: 25 }),
       };
 
-      let ok = reviewStream.write(JSON.stringify(review) + '\n');
-      if (!ok) {
+      let reviewOK = reviewStream.write(JSON.stringify(review) + '\n');
+      if (!reviewOK) {
         await new Promise((resolve) => {
           reviewStream.once('drain', resolve);
         });
@@ -147,6 +147,7 @@ async function createReviews() {
 
     }
   }
+
   reviewStream.end();
   reviewStream.on('finish', () => {
     console.log('Successfully appended 10m entries to reviews_10m.jsonl. Total 10m.'); // CHECK THIS WHEN RERUNNING SCRIPT
