@@ -22,7 +22,7 @@
     "start": "node ./server/server.js",
     "add": "eslint '*/**' --ignore-path .lintignore && git add -A",
     "pg-setup": "brew install postgres && brew services start postgres && createdb reviews && psql reviews",
-    "seed": "node database/seed.js",
+    "seed": "node database/seed-arango.js",
     "test": "jest",
     "dockerstart": "node ./database/seed.js && node ./server/server.js"
   },
@@ -38,16 +38,14 @@
     "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.7.0",
     "moment": "^2.24.0",
-    "pg": "^7.11.0",
+    "newrelic": "^6.5.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "squel": "^5.12.2",
     "superagent": "^5.0.5",
     "supertest": "^4.0.2",
     "svg-url-loader": "^2.3.2",
-    "webpack": "^4.32.2",
-    "webpack-cli": "^3.3.2"
+    "webpack": "^4.32.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
@@ -69,6 +67,7 @@
     "jsdom": "^15.1.0",
     "nodemon": "^1.19.0",
     "react-test-renderer": "^16.8.6",
-    "style-loader": "^0.23.1"
+    "style-loader": "^0.23.1",
+    "webpack-cli": "^3.3.11"
   }
 }

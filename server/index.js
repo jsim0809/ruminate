@@ -17,18 +17,6 @@ app.get('/:id', (req, res) => {
   }
 });
 
-app.get('/:id/summary', (req, res) => {
-  db.getSummary(req.params.id, (err, result) => {
-    if (err) {
-      res.status(500);
-      res.end();
-    } else {
-      res.status(200);
-      res.send(result);
-    }
-  });
-});
-
 app.get('/:id/reviews', (req, res) => {
   db.getAllReviews(req.params.id, (err, result) => {
     if (err) {
