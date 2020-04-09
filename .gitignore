@@ -29,8 +29,5 @@ coverage
 # Compiled Dirs (http://nodejs.org/api/addons.html)
 public/bundle.js
 
-# Local Postgres Role Name
-config/db_config.js
-
-# Database seeding CSVs -- 10m+ entries!
-database/10m/*.csv
+# newrelic
+./newrelic.js
