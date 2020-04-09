@@ -22,7 +22,7 @@ CREATE TABLE diners (
 );
 
 CREATE TABLE reviews (
-  id              int unique,
+  id              int,
   restaurant      int,
   diner           int,
   text            varchar(1000),
@@ -32,7 +32,5 @@ CREATE TABLE reviews (
   service         int,
   ambience        int,
   wouldrecommend  boolean,
-  tags            varchar(100),
-  foreign key (diner) references diners(id),
-  foreign key (restaurant) references restaurants(id)
+  tags            varchar(100)
 );
