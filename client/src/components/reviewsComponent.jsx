@@ -67,12 +67,13 @@ export default class Reviews extends React.Component {
     request
       .get(`http://localhost:3010/${restaurantId}/reviews`)
       .then((res) => {
+        console.log(res.body[0]);
         this.setState({
-          summary: this.unzipSummary(res.body[0].review)
+          summary: this.unzipSummary(res.body[0]),
         });
         this.setState({
-          reviews: this.unzipReviews(res.body),
-          showing: this.unzipReviews(res.body),
+          reviews: this.unzipReviews(res.body[0].r),
+          showing: this.unzipReviews(res.body[0].r),
         }, () => {
           this.sortReviews();
           this.parseStarPercentages();
@@ -84,46 +85,46 @@ export default class Reviews extends React.Component {
 
   unzipReviews(array) {
     return array.map((review) => {
+      const metrics = parseInt(review.m, 36).toString();
       return {
-        date: moment(review.review.d, 'YYMMD').format('YYYY-MM-DD'),
-        text: review.review.t,
-        overall: review.review.o,
-        food: review.review.f,
-        service: review.review.s,
-        ambience: review.review.a,
-        wouldrecommend: review.review.w === 't' ? true : false,
-        tags: review.review.g.split(',').map((tag) => this.retag(tag)).join(),
-        firstname: review.review.df,
-        lastname: review.review.dl,
-        city: review.review.dc,
-        avatarcolor: ['#d86441', '#bb6acd', '#6c8ae4', '#df4e96'][review.review.da - 1],
-        isvip: review.review.dv === 't' ? true : false,
-        totalreviews: review.review.dt,
+        date: moment([2019, 1, 1]).add(review.d).format('YYYY-MM-DD'),
+        text: review.t,
+        overall: Number(metrics[0]),
+        food: Number(metrics[1]),
+        service: Number(metrics[2]),
+        ambience: Number(metrics[3]),
+        wouldrecommend: Boolean(Number(metrics[4])),
+        tags: this.retag(review.g),
+        firstname: review.f,
+        lastname: review.l,
+        city: review.c,
+        avatarcolor: ['#d86441', '#bb6acd', '#6c8ae4', '#df4e96'][Number(metrics[5])],
+        isvip: Boolean(Number(metrics[6])),
+        totalreviews: Number(metrics.substring(7)),
       }
     });
   }
 
-  unzipSummary(review) {
+  unzipSummary(restaurant) {
+    const metrics = parseInt(restaurant.m, 36).toString();
     return {
-      location: review.rl,
-      noise: ['Quiet', 'Average', 'Loud'][review.ri - 1],
-      recommendPercent: review.rr,
-      valueRating: review.rv,
-      averageOverall: review.ro,
-      averageFood: review.rf,
-      averageAmbience: review.ra,
-      averageService: review.rs,
+      location: restaurant.l,
+      averageOverall: Number(metrics.substring(0,2)),  // Overall, Food, Service, Ambience, Value
+      averageFood: Number(metrics.substring(2,4)),
+      averageService: Number(metrics.substring(4,6)),
+      averageAmbience: Number(metrics.substring(6,8)),
+      valueRating: Number(metrics.substring(8,10)),
+      noise: ['Quiet', 'Average', 'Loud'][Number(metrics[10])],
+      recommendPercent: Number(metrics.substring(11)),
     }
   }
 
-  retag(tag) {
-    if (tag[0] === 'f') {
-      return ['pot roast', 'chicken', 'sushi', 'marshmallows', 'pumpkin pie', 'wine'][tag[1] - 1];
-    } else if (tag[0] === 't') {
-      return ['groups', 'kids', 'gluten free', 'vegan'][tag[1] - 1];
-    } else {
-      return '';
-    }
+  retag(encodedTags) {
+    const tags = encodedTags.toString().split('');
+    let decoded = tags.map((tag) => {
+      return ['pot roast', 'chicken', 'sushi', 'marshmallows', 'pumpkin pie', 'wine', 'groups', 'kids', 'gluten free', 'vegan'][tag]
+    });
+    return decoded.join();
   }
 
   getTags() {
