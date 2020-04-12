@@ -1,6 +1,17 @@
 const fs = require('fs');
 const Faker = require('faker');
 const moment = require('moment');
+const arangojs = require('arangojs');
+const dbconf = require('../../sdc-data/config/arango_config.js');
+
+const db = new arangojs.Database({
+  url: "http://54.191.222.41:8529"
+});
+
+db.useDatabase('_system');
+db.useBasicAuth(dbconf.user, dbconf.password);
+
+const reviewsCollection = db.collection('r');
 
 // Key/Value Revamp
 
@@ -39,9 +50,8 @@ function padNumber(num) {
 async function createReviews() {
   // create 10 million restaurants and store them in a JSONL
   // each restaurant has one summary document and n reviews.
-  let reviewStream = fs.createWriteStream('../../sdc-data/reviews_500k_zip_3.jsonl', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
 
-  for (let restaurant_id = 1000001; restaurant_id <= 1500000; restaurant_id += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
+  for (let restaurant_id = 1; restaurant_id <= 1000000; restaurant_id += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
     const restaurant = {
       "_key": Number(restaurant_id).toString(36), // base 36 string representing restaurant id
       // restaurant location
@@ -88,22 +98,16 @@ async function createReviews() {
 
     }
 
-    let ok = reviewStream.write(JSON.stringify(restaurant) + '\n');
-      if (!ok) {
-        await new Promise((resolve) => {
-          reviewStream.once('drain', resolve);
-        });
-      };
+    await reviewsCollection.save(restaurant, { silent: true });
 
+    if (restaurant_id % 50000 === 0) {
+      console.log(`${restaurant_id} entries saved to collection "r".`);
+    }
+ 
   }
 
-  reviewStream.end();
-  reviewStream.on('finish', () => {
-    console.log('Successfully appended 500k entries to file.'); // CHECK THIS WHEN RERUNNING SCRIPT
-  });
-  reviewStream.on('error', () => {
-    console.error('Error: write failed.');
-  });
+  console.log('Successfully saved 1m entries to collection "r". Total 1m.'); // CHECK THIS WHEN RERUNNING SCRIPT
+  
 };
 
 createReviews();
