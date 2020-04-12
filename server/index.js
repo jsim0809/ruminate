@@ -13,6 +13,7 @@ app.get('/:id', (req, res) => {
     res.status(400);
     res.end();
   } else {
+    res.status(200);
     res.sendFile('index.html', { root: path.resolve(__dirname, '../public') });
   }
 });
