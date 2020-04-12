@@ -30,4 +30,4 @@ coverage
 public/bundle.js
 
 # newrelic
-./newrelic.js
+newrelic.js
