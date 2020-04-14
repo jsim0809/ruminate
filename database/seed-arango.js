@@ -39,15 +39,9 @@ function padNumber(num) {
 async function createReviews() {
   // create 10 million restaurants and store them in a JSONL
   // each restaurant has one summary document and n reviews.
-<<<<<<< HEAD
-  let reviewStream = fs.createWriteStream('../../sdc-data/reviews_500k_zip_3.jsonl', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
-
-  for (let restaurant_id = 1000001; restaurant_id <= 1500000; restaurant_id += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
-=======
   let reviewStream = fs.createWriteStream('../../sdc-data/reviews_10m_zip.jsonl', { flags: 'a' }); // CHECK THIS WHEN RERUNNING SCRIPT
 
   for (let restaurant_id = 1; restaurant_id <= 10000000; restaurant_id += 1) { // CHECK THIS WHEN RERUNNING SCRIPT
->>>>>>> 1a99322947a8f1e8e3779ef3ff5ff10a08e88695
     const restaurant = {
       "_key": Number(restaurant_id).toString(36), // base 36 string representing restaurant id
       // restaurant location
@@ -105,11 +99,7 @@ async function createReviews() {
 
   reviewStream.end();
   reviewStream.on('finish', () => {
-<<<<<<< HEAD
-    console.log('Successfully appended 500k entries to file.'); // CHECK THIS WHEN RERUNNING SCRIPT
-=======
     console.log('Successfully appended 10m entries to reviews_10m_zip.jsonl. Total 10m.'); // CHECK THIS WHEN RERUNNING SCRIPT
->>>>>>> 1a99322947a8f1e8e3779ef3ff5ff10a08e88695
   });
   reviewStream.on('error', () => {
     console.error('Error: write failed.');
