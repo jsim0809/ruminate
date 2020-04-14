@@ -1,18 +1,26 @@
-const arangojs = require('arangojs');
-const db = new arangojs.Database();
-const dbconf = require('../../sdc-data/config/arango_config.js');
+const { Pool } = require('pg');
+const dbconf = require('../../sdc-data/config/postgres_config.js');
 
-db.useDatabase('_system');
-db.useBasicAuth(dbconf.user, dbconf.password);
+const pool = new Pool({
+  user: dbconf.user,
+  host: dbconf.host,
+  database: 'reviews',
+  password: dbconf.password,
+  port: 5432
+});
+
+pool.connect()
 
 module.exports.getAllReviews = (restaurantId, callback) => {
-  let queryID = `r/${Number(restaurantId).toString(36)}`;
-  db.query(`RETURN DOCUMENT("${queryID}")`)
-    .then((cursor) => cursor.all())
-    .then((reviews) => {
-      callback(null, reviews);
+  let queryID = Number(restaurantId).toString(36);
+  pool.query(`SELECT * FROM reviews WHERE key='${queryID}'`)
+    .then((res) => {
+      callback(null, res.rows);
     })
-    .catch((error) => {
-      callback(error);
+    .catch((err) => {
+      callback(err);
     });
 };
+
+
+

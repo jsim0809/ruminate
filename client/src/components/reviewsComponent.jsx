@@ -65,15 +65,14 @@ export default class Reviews extends React.Component {
   getReviewsData() {
     const { restaurantId } = this.props;
     request
-      .get(`http://localhost:3010/${restaurantId}/reviews`)
+      .get(`${restaurantId}/reviews`)
       .then((res) => {
-        console.log(res.body[0]);
         this.setState({
           summary: this.unzipSummary(res.body[0]),
         });
         this.setState({
-          reviews: this.unzipReviews(res.body[0].r),
-          showing: this.unzipReviews(res.body[0].r),
+          reviews: this.unzipReviews(res.body),
+          showing: this.unzipReviews(res.body),
         }, () => {
           this.sortReviews();
           this.parseStarPercentages();
@@ -85,19 +84,19 @@ export default class Reviews extends React.Component {
 
   unzipReviews(array) {
     return array.map((review) => {
-      const metrics = parseInt(review.m, 36).toString();
+      const metrics = parseInt(review.review_metrics, 36).toString();
       return {
-        date: moment([2019, 1, 1]).add(review.d).format('YYYY-MM-DD'),
-        text: review.t,
+        date: moment([2019, 1, 1]).add(review.date).format('YYYY-MM-DD'),
+        text: review.review_text,
         overall: Number(metrics[0]),
         food: Number(metrics[1]),
         service: Number(metrics[2]),
         ambience: Number(metrics[3]),
         wouldrecommend: Boolean(Number(metrics[4])),
-        tags: this.retag(review.g),
-        firstname: review.f,
-        lastname: review.l,
-        city: review.c,
+        tags: review.review_tags ? this.retag(review.review_tags) : '',
+        firstname: review.review_firstname,
+        lastname: review.review_lastname,
+        city: review.review_city,
         avatarcolor: ['#d86441', '#bb6acd', '#6c8ae4', '#df4e96'][Number(metrics[5])],
         isvip: Boolean(Number(metrics[6])),
         totalreviews: Number(metrics.substring(7)),
@@ -106,7 +105,7 @@ export default class Reviews extends React.Component {
   }
 
   unzipSummary(restaurant) {
-    const metrics = parseInt(restaurant.m, 36).toString();
+    const metrics = parseInt(restaurant.metrics, 36).toString();
     return {
       location: restaurant.l,
       averageOverall: Number(metrics.substring(0,2)),  // Overall, Food, Service, Ambience, Value
