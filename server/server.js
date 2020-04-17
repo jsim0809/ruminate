@@ -1,4 +1,3 @@
-// require('newrelic');
 const app = require('./index.js');
 
 app.listen(3010, () => {

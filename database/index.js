@@ -6,7 +6,8 @@ const pool = new Pool({
   host: dbconf.host,
   database: 'reviews',
   password: dbconf.password,
-  port: 5432
+  port: 5432,
+  idleTimeoutMillis: 0,
 });
 
 pool.connect()

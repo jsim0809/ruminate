@@ -65,7 +65,7 @@ export default class Reviews extends React.Component {
   getReviewsData() {
     const { restaurantId } = this.props;
     request
-      .get(`${restaurantId}/reviews`)
+      .get(`../${restaurantId}/reviews`)
       .then((res) => {
         this.setState({
           summary: this.unzipSummary(res.body[0]),
