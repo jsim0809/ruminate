@@ -31,9 +31,10 @@ The public folder will be available at host port 3010.
 ## API
 
 GET {host}:3010/:id/            Serves the HTML client-facing component page
+
 GET {host}:3010/:id/reviews     Queries database for an array of review objects associated with a restaurant.
 
-##### Parameters
+#### Parameters
 id: **integer**  
 
 The **id** parameter specifies the unique id of the restaurant being queried. Seeded test values range from 1-10000000 (10 million).
